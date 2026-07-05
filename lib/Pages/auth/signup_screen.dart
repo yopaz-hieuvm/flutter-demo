@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/Widgets/my_button.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -35,7 +36,22 @@ class _SignupScreenState extends State<SignupScreen> {
               obscureText: true,
             ),
             SizedBox(height: 16.0),
-            SizedBox(),
+            SizedBox(
+              child: MyButton(onTap: (){} , buttontext: 'Sign Up', color: Colors.blueAccent)
+            ),
+            SizedBox(height: 16.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Already have an account?'),
+                TextButton(
+                  onPressed: () {
+                    // Navigate to the login screen
+                  },
+                  child: Text('Login'),
+                ),
+              ],
+            ),
           ],
         )),
       ),
