@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_demo/Pages/auth/signup_screen.dart';
+import 'package:flutter_demo/Pages/auth/login_screen.dart';
+import 'package:flutter_demo/Pages/home/home_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Supabase.initialize(
-    url: 'https://vfqscxjmyjmyvjvyjkhr.supabase.co',
-    publishableKey: 'sb_publishable_gl1wueSVKrlueUjIxMOWLQ_vu0uZAJo'
+   url: 'https://wyynappfygocmjnujaam.supabase.co',
+   anonKey: 'sb_publishable_3XcqFxIKp9cqt5091GUrqw_Zkljh8SV',
+
   );
   runApp(const MyApp());
 }
@@ -35,9 +37,31 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
       ),
-      home: SignupScreen()
+      home: AuthCheck()
     );
+  }
+}
+
+class AuthCheck extends StatelessWidget {
+  final SupabaseClient supabase = Supabase.instance.client;
+
+  AuthCheck({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: supabase.auth.onAuthStateChange,
+      builder: (context, snapshot) {
+        final session = supabase.auth.currentSession;
+
+        if (session != null) {
+          return HomeScreen(); // if logged in, go to home screen
+        } else {
+          return LoginScreen(); // otherwise, show login screen
+        }
+      },
+    ); // StreamBuilder
   }
 }
